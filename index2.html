@@ -1,0 +1,770 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>ThreeZine</title>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="css/style.css" rel="stylesheet" type="text/css"> 
+ <script type="text/javascript" src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="venobox/venobox.min.js"></script>
+<link href="venobox/venobox.css" rel="stylesheet" type="text/css">
+<script>
+$(document).ready(function(){
+
+	/* default settings */
+	$('.venobox').venobox(); 
+
+
+	/* open content with custom settings */
+	$('.venobox_custom').venobox({
+		framewidth: '300px',
+		frameheight: '250px',
+		border: '6px',
+		bordercolor: '#ba7c36',
+		numeratio: true
+	});
+
+	/* auto-open #firstlink on page load */
+	$("#firstlink").venobox().trigger('click');
+});
+</script>
+
+	
+	
+	<style> 
+        .captionOrange, .captionBlack
+        {
+            color: #fff;
+            font-size: 20px;
+            line-height: 30px;
+            text-align: center;
+            border-radius: 4px;
+        }
+        .captionOrange
+        {
+            background: #EB5100;
+            background-color: rgba(235, 81, 0, 0.6);
+        }
+        .captionBlack
+        {
+        	font-size:16px;
+            background: #000;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+        a.captionOrange, A.captionOrange:active, A.captionOrange:visited
+        {
+        	color: #ffffff;
+        	text-decoration: none;
+        }
+        a.captionOrange:hover
+        {
+            color: #eb5100;
+            text-decoration: underline;
+            background-color: #eeeeee;
+            background-color: rgba(238, 238, 238, 0.7);
+        }
+        .bricon
+        {
+            background: url(img/browser-icons.png);
+        }
+		.media
+		{
+			width:100%;
+			height:100%;
+			
+		}
+				.media:hover 
+		{
+			width:100%;
+			height:100%;
+	       font-weight:bold;
+		   box-shadow:1px 1px 10px 1px #999; 
+		}
+    </style>
+    <!-- it works the same with all jquery version from 1.x to 2.x -->
+    <!-- use jssor.slider.mini.js (40KB) or jssor.sliderc.mini.js (32KB, with caption, no slideshow) or jssor.sliders.mini.js (28KB, no caption, no slideshow) instead for release -->
+    <!-- jssor.slider.mini.js = jssor.sliderc.mini.js = jssor.sliders.mini.js = (jssor.js + jssor.slider.js) -->
+    <script type="text/javascript" src="js/jssor.js"></script>
+    <script type="text/javascript" src="js/jssor.slider.js"></script>
+    <script>
+        jQuery(document).ready(function ($) {
+            //Reference http://www.jssor.com/development/tip-make-responsive-slider.html
+
+            var _CaptionTransitions = [];
+            _CaptionTransitions["CLIP|L"] = { $Duration: 600, $Clip: 1, $Easing: $JssorEasing$.$EaseInOutCubic };
+            _CaptionTransitions["RTT|10"] = { $Duration: 600, $Zoom: 11, $Rotate: 1, $Easing: { $Zoom: $JssorEasing$.$EaseInExpo, $Opacity: $JssorEasing$.$EaseLinear, $Rotate: $JssorEasing$.$EaseInExpo }, $Opacity: 2, $Round: { $Rotate: 0.8} };
+            _CaptionTransitions["ZMF|10"] = { $Duration: 600, $Zoom: 11, $Easing: { $Zoom: $JssorEasing$.$EaseInExpo, $Opacity: $JssorEasing$.$EaseLinear }, $Opacity: 2 };
+            _CaptionTransitions["FLTTR|R"] = { $Duration: 600, x: -0.2, y: -0.1, $Easing: { $Left: $JssorEasing$.$EaseLinear, $Top: $JssorEasing$.$EaseInWave }, $Opacity: 2, $Round: { $Top: 1.3} };
+
+            var options = {
+                $AutoPlay: true,                                    //[Optional] Whether to auto play, to enable slideshow, this option must be set to true, default value is false
+                $DragOrientation: 3,                                //[Optional] Orientation to drag slide, 0 no drag, 1 horizental, 2 vertical, 3 either, default value is 1 (Note that the $DragOrientation should be the same as $PlayOrientation when $DisplayPieces is greater than 1, or parking position is not 0),
+
+                $CaptionSliderOptions: {                            //[Optional] Options which specifies how to animate caption
+                    $Class: $JssorCaptionSlider$,                   //[Required] Class to create instance to animate caption
+                    $CaptionTransitions: _CaptionTransitions,       //[Required] An array of caption transitions to play caption, see caption transition section at jssor slideshow transition builder
+                    $PlayInMode: 1,                                 //[Optional] 0 None (no play), 1 Chain (goes after main slide), 3 Chain Flatten (goes after main slide and flatten all caption animations), default value is 1
+                    $PlayOutMode: 3                                 //[Optional] 0 None (no play), 1 Chain (goes before main slide), 3 Chain Flatten (goes before main slide and flatten all caption animations), default value is 1
+                }
+            };
+
+            var jssor_slider2 = new $JssorSlider$("slider2_container", options);
+
+            //responsive code begin
+            //you can remove responsive code if you don't want the slider scales while window resizes
+            function ScaleSlider() {
+
+                //reserve blank width for margin+padding: margin+padding-left (10) + margin+padding-right (10)
+                var paddingWidth = 20;
+
+                //minimum width should reserve for text
+                var minReserveWidth = 225;
+
+                var parentElement = jssor_slider2.$Elmt.parentNode;
+
+                //evaluate parent container width
+                var parentWidth = parentElement.clientWidth;
+
+                if (parentWidth) {
+
+                    //exclude blank width
+                    var availableWidth = parentWidth - paddingWidth;
+
+                    //calculate slider width as 70% of available width
+                    var sliderWidth = availableWidth * 0.7;
+
+                    //slider width is maximum 600
+                    sliderWidth = Math.min(sliderWidth, 600);
+
+                    //slider width is minimum 200
+                    sliderWidth = Math.max(sliderWidth, 200);
+                    var clearFix = "none";
+
+                    //evaluate free width for text, if the width is less than minReserveWidth then fill parent container
+                    if (availableWidth - sliderWidth < minReserveWidth) {
+
+                        //set slider width to available width
+                        sliderWidth = availableWidth;
+
+                        //slider width is minimum 200
+                        sliderWidth = Math.max(sliderWidth, 200);
+
+                        clearFix = "both";
+                    }
+
+                    //clear fix for safari 3.1, chrome 3
+                    $('#clearFixDiv').css('clear', clearFix);
+
+                    jssor_slider2.$ScaleWidth(sliderWidth);
+                }
+                else
+                    window.setTimeout(ScaleSlider, 30);
+            }
+
+            ScaleSlider();
+
+            if (!navigator.userAgent.match(/(iPhone|iPod|iPad|BlackBerry|IEMobile)/)) {
+                $(window).bind('resize', ScaleSlider);
+            }
+
+
+            //if (navigator.userAgent.match(/(iPhone|iPod|iPad)/)) {
+            //    $(window).bind("orientationchange", ScaleSlider);
+            //}
+            //responsive code end
+        });
+    </script>
+    
+
+
+
+
+<style>
+.carousel img:hover .effect:hover
+{
+	color:#F30;
+}
+.carousel-caption
+{
+	position:absolute;
+	right:15% !important;
+	bottom:15px;
+	left:4.5% !important;
+	z-index:10;
+	padding-top:20px !important;
+	padding-bottom:20px;
+	color:#fff;
+	text-align:center;
+	text-shadow:0 1px 2px;
+	rgba(0,0,0,.6);
+}
+.header
+{
+background-color: #999;	
+}
+</style>
+</head>
+
+
+<body style="background:#e9e9e9;">
+<section class="header">
+<div class="container-fluid">
+	<div class="row">
+        <div class="col-md-6">
+        <a href="#">Home</a>&nbsp;|&nbsp;
+        <a href="#about">About</a>
+        &nbsp;|&nbsp;
+        <a href="#twitter">Terms of use</a>
+        &nbsp;|&nbsp;
+        <a href="#contact">Contact</a>
+        </div>
+        <!-- <div class="col-md-2  pull-right">
+                
+
+        <i class="fa  fa-facebook-square" style="font-size:22px;"></i>
+        <i class="fa fa-2x fa-delicious" style="font-size:22px;"></i>
+        <i class="fa fa-2x fa-flickr" style="font-size:22px;"></i>
+        <i class="fa fa-2x fa-twitter-square" style="font-size:22px;"></i>
+        <i class="fa fa-2x fa-tumblr-square" style="font-size:22px;"></i>
+        </div> -->
+    </div>
+</div>
+</section>
+
+<div class="logo">
+ threezine 
+ </div>
+ 
+<div class="container">
+   <nav class="navbar navbar-default" role="navigation">
+	 <div class="container-fluid sitebg">
+         <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#menu">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+              </button>
+        
+         </div>
+		<div id="menu" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+             <li><a href="#">HOME </a></li>
+              <li><a href="#interior">INTERIOR DESIGN </a></li>
+              <li><a href="#twitter">FREEBIES </a></li>
+              <li><a href="#templates">TEMPLATES </a></li>
+             <li><a href="#flicker">PHOTOGALLARY</a></li>
+             
+			<li class=""><a style="margin-left:250px;"  class="fa fa-1x fa-phone animated faa-flash  ">Call : 9083214480</a></li>
+            <li><a href="#"></a></li>
+             </ul>
+ 		</div>
+ 	 </div>
+  </nav>
+</div><!--container-->
+
+<div class="container">
+   <section class="sec1">
+   
+
+        <div class="row">
+     
+   
+        		<div class="col-md-8 carousel"><br><br>
+
+<div style="display: block; overflow: hidden; margin: 20px auto 0 auto; padding: 10px 5px 5px 10px; width: 96%; max-width:940px; min-width: 240px; border: 1px solid #ccc; background-color: #fff; box-shadow: box-shadow:1px 1px 10px 1px #999; ; -webkit-box-shadow: box-shadow:1px 1px 10px 1px #999; ; font-size: .8em; line-height: 1.5em;">
+    <!-- Jssor Slider Begin -->
+    <!-- You can move inline styles to css file or css block. -->
+        <div id="slider2_container" style="position: relative; margin: 0px 5px 5px 0px; float: left; top: 0px; left: 0px; width: 600px;
+            height: 260px; overflow: hidden;">
+            
+            <div class="carousel-caption pull-left" style="background:#000;  margin: 0px 5px -25px 0px; width:91%; opacity:0.7;">
+                  <!--<p style="background:#666; float:left; opacity:0.3; padding:10px 10px 10px 10px;" class="effect"><b>Your banner image here</b></p>-->
+                  <p style=" color:#fff;  font-size:24px;">FIND YOUR DREAM HOUSE</p>
+                  </div>
+            
+            
+            <!-- Slides Container -->
+            <div u="slides" style="cursor: move; position: absolute; left: 0px; top: 0px; width: 600px; height: 300px;
+                overflow: hidden;">
+                <div><img u="image" src="img/modest-modern-comtemporary-living-room-design.jpg"/>
+                    <div u="caption" t="CLIP|L" style="position:absolute;left:100px;top:80px;width:110px;height:40px;font-size:36px;color:#333;line-height:40px;">Best</div>
+                    <div u="caption" t="CLIP|L" style="position:absolute;left:230px;top:80px;width:150px;height:40px;font-size:36px;color:#333;line-height:40px;">Interior</div>
+                    <div u="caption" t="CLIP|L" style="position:absolute;left:380px;top:80px;width:130px;height:40px;font-size:36px;color:#333;line-height:40px;">Design!</div>
+                </div>
+                <div><img u="image" src="img/10.jpg" />
+                    <div u="caption" t="ZMF|10" style="position:absolute;left:100px;top:80px;width:110px;height:40px;font-size:36px;color:#333;line-height:40px;">Best</div>
+                    <div u="caption" t="ZMF|10" style="position:absolute;left:230px;top:80px;width:150px;height:40px;font-size:36px;color:#333;line-height:40px;">Modern</div>
+                    <div u="caption" t="ZMF|10" style="position:absolute;left:380px;top:80px;width:130px;height:40px;font-size:36px;color:#333;line-height:40px;">Facilities!</div>
+                </div>
+                <div><img u="image" src="img/07.jpg" />
+                    <div u="caption" t="RTT|10" style="position:absolute;left:100px;top:80px;width:110px;height:40px;font-size:36px;color:#333;line-height:40px;">Best</div>
+                    <div u="caption" t="RTT|10" style="position:absolute;left:230px;top:80px;width:150px;height:40px;font-size:36px;color:#333;line-height:40px;">E M I</div>
+                    <div u="caption" t="RTT|10" style="position:absolute;left:380px;top:80px;width:130px;height:40px;font-size:36px;color:#333;line-height:40px;">Cost!</div>
+                </div>
+                <div><img u="image" src="img/06.jpg" />
+                    <div u="caption" t="FLTTR|R" style="position:absolute;left:100px;top:80px;width:110px;height:40px;font-size:36px;color:#333;line-height:40px;">Best</div>
+                    <div u="caption" t="FLTTR|R" style="position:absolute;left:230px;top:80px;width:150px;height:40px;font-size:36px;color:#333;line-height:40px;">Exterior</div>
+                    <div u="caption" t="FLTTR|R" style="position:absolute;left:380px;top:80px;width:130px;height:40px;font-size:36px;color:#333;line-height:40px;">Design!</div>
+                </div>
+            </div>
+        <a style="display: none" href="http://www.jssor.com">javascript carousel</a>
+        </div>
+        <!-- Jssor Slider End -->
+        <div id="clearFixDiv" style="display: table; padding: 5px; margin: 0px 5px 5px 0px; border: 1px solid #ccc;">
+           
+        </div>
+    </div>
+               
+<a style="text-decoration:none; background-color:#fff; border-radius:50%; padding:1%; color:#666;" href="#cont_frm" class="fa fa-angle-double-down col-md-offset-6 fa-2x"></a>         
+     </div>
+     
+     
+                <br>
+
+                <div class="col-md-4">
+                    <div class="media-list ">
+                    	<div style="color:#333;" class="media mediatop">
+                        
+                         <a href="#" class="media-left">
+                           <img src="img/thumb-18.jpg" class="media-object img-thumbnail"  alt=""> 
+                         </a>
+            
+                            <div class="media-body">
+                                <h6>your destination for finding the perfect home and creating beautiful living spaces..</h6>
+                            </div>
+                            </div>
+    				</div>
+                    
+                    <br>
+                        <div class="dot2"></div>
+                        <div style="color:#333;" class="media mediatop">
+                                <a href="#" class="media-left">
+                                <img src="img/thumb-29.jpg" class="media-object img-thumbnail"  alt=""> 
+                                </a>
+                                        <div class="media-body">
+                                    <h6>Buying your dream property, or planning to renovate your existing home.</h6>
+                        </div>
+                        </div><br>
+
+                        <div class="dot2"></div>
+                         <div style="color:#333;" class="media mediatop">
+                         <a href="#" class="media-left">
+                           <img src="img/thumb-08.jpg" class="media-object img-thumbnail"  alt=""> 
+                          </a>
+            
+                            <div class="media-body">
+                                <h6>Discover inspiring interior designs, and access professional exterior architecture and landscaping services..</h6>
+                            </div>
+    				</div><br>
+
+                        <!-- <div class="dot2"></div>
+                       <div class="media">
+                                <a href="#" class="media-left">
+                                <img src="img/img3.gif" class="media-object"  alt=""> 
+                                </a>
+                                        <div class="media-body">
+                                    <p>Lorem ipsum dolor sit amet,consectetur adipisicing elit. Libero ex inventore vel error quibusdam animi fugiat.</p>
+                                        </div>
+                        </div>-->
+
+   				</div>
+                </div>
+
+  </section>
+</div><!--container-->
+
+<div class="container ">
+   <div class="row">
+        <div class="col-md-3">
+        	<div class="col-md-12 box">
+            	<h5>RECENT POST</h5>
+                <div style="border-top:1px dashed #000; width:100%; margin-bottom:20px;"></div>
+                <div class="media-list">
+                    	<div class="media media-r">
+                         <a href="#" class="media-left">
+                           <img src="img/thumb-25.jpg" class="media-object"  alt=""> 
+                          </a>
+            
+                            <div class="media-body">
+                                <h6>we believe that a home is more than just a building.</h6>
+                            </div>
+    				</div>
+                        <div class="media media-r">
+                                        <div class="media-body">
+                                    <h6>From finding the right property to designing every corner of your home.</h6>
+                                        </div>
+                                <a href="#" class="media-right">
+                                <img src="img/thumb-24.jpg" class="media-object"  alt=""> 
+                                </a>
+
+                        </div>
+                                            	<div class="media media-r">
+                         <a href="#" class="media-left">
+                           <img src="img/thumb-19.jpg" class="media-object"  alt=""> 
+                          </a>
+            
+                            <div class="media-body">
+                                <h6>we make your journey simple, convenient, and inspiring</h6>
+                            </div>
+    				</div>
+                        <div class="media media-r">
+                                
+                                        <div class="media-body">
+                                    <h6>It is a reflection of your lifestyle, personality, and dreams</h6>
+                                        </div>
+                                        <a href="#" class="media-right">
+                                <img src="img/thumb-26.jpg" class="media-object"  alt=""> 
+                                </a>
+                        </div>
+
+   				</div>
+            </div>
+            
+            <div style="background-color:#999; border:1px solid #666; color:fff;" class="col-md-12 box">
+            	<h5 style="color:#fff;">POPULER POST</h5>
+                <div style="border-top:1px dashed #fff; width:100%; margin-bottom:20px;"></div>
+                <div  class="media-list">
+                    	<div class="media media-p">
+                         <a href="#" class="media-left">
+                           <img src="img/thumb-30.jpg" class="media-object"  alt=""> 
+                          </a>
+            
+                            <div class="media-body">
+                                <h6>Our platform connects home seekers with property opportunities 
+                                .</h6>
+                            </div>
+    				</div>
+                        <div class="media media-p">
+                                        <div class="media-body">
+                                    <h6>We offer complete solutions, including property discovery.</h6>
+                                        </div>
+                                 <a href="#" class="media-right">
+                                <img src="img/thumb-21.jpg" class="media-object"  alt=""> 
+                                </a>
+
+                        </div>
+                          <div class="media media-p">
+                         <a href="#" class="media-left">
+                           <img src="img/thumb-15.jpg" class="media-object"  alt=""> 
+                          </a>
+            
+                            <div class="media-body">
+                                <h6>Our mission is to make finding and owning your dream home.</h6>
+                            </div>
+    				</div>
+                        <div class="media media-p">
+                               
+                                        <div class="media-body">
+                                    <h6>A modern real estate and home design platform that helps users discover.</h6>
+                                        </div>
+                                         <a href="#" class="media-right">
+                                <img src="img/thumb-03.jpg" class="media-object"  alt=""> 
+                                </a>
+                        </div>
+
+   				</div>
+            </div>
+            <div class="col-md-12 box box-s" id="flicker">
+            	<h5>NEWS POST</h5>
+                <div style="border-top:1px dashed #000; width:100%; margin-bottom:20px;"></div>
+                <p><b>Interior Design<h6><i>November 05, 2026 · 5 min read</i></h6></b> 
+Discover contemporary interior styles that make your home elegant, comfortable, and functional.... »</p>
+
+                <!-- <p><b>Real Estate<h6><i>November 02, 2026 · 4 min read</i></h6></b> 
+Important factors to consider before purchasing your dream home..... »</p>
+
+				<p><b>Architecture<h6><i>October 20, 2026 · 4 min read</i></h6></b> 
+Explore stylish facades, outdoor lighting, landscaping, and architectural details..... »</p> -->
+
+                 <p><b>Home Improvement<h6><i>October 28, 2026 · 6 min read</i></h6></b> 
+Make the most of limited space with creative furniture and smart storage solutions..... »</p>
+
+          </div>
+            
+            
+                    <div class="col-md-12 box box-s box-b">
+            	<h5>PHOTOGALLARY</h5>
+            	<div style="border-top:1px dashed #fff; width:100%; margin-bottom:20px;"></div>
+                <div>
+               
+
+                         <div style="float:left;"><a class="venobox" data-gall="myGallery" href="img/17.jpg"><img src="img/thumb-17.jpg" width="60" height="40" alt="" style="border:2px solid #fff;"></a></div>
+                         
+                         <div style="float:left;"><a class="venobox" data-gall="myGallery" href="img/12.jpg"><img src="img/thumb-12.jpg" width="60" height="40" alt="" style="border:2px solid #fff;"></a></div>
+                         
+                         <div style="float:left;"><a class="venobox" data-gall="myGallery" href="img/13.jpg"><img src="img/thumb-13.jpg" width="60" height="40" alt="" style="border:2px solid #fff;"></a></div>
+                         
+                <div style="float:left; margin-left:0px;"><a class="venobox" data-gall="myGallery" href="img/15.jpg"><img src="img/thumb-15.jpg" width="60" height="40" alt="" style="border:2px solid #fff;"></a>
+</div>
+                <div style="margin-left:0px; float:left;"><a class="venobox" data-gall="myGallery" href="img/18.jpg"><img src="img/thumb-18.jpg" width="60" height="40" alt="" style="border:2px solid #fff;"></a>
+</div>
+                
+                 
+         		<div style="float:left;"><a class="venobox" data-gall="myGallery" href="img/11.jpg"><img src="img/thumb-11.jpg" width="60" height="40" alt="" style="border:2px solid #fff;"></a>
+</div>
+                <div style="float:left; margin-left:0px;"><a class="venobox" data-gall="myGallery" href="img/27.jpg"><img src="img/thumb-27.jpg" width="60" height="40" alt="" style="border:2px solid #fff;"></a></div>
+                
+                <div style="margin-left:180px;"><a class="venobox" data-gall="myGallery" href="img/19.jpg"><img src="img/thumb-19.jpg" width="60" height="40" alt="" style="border:2px solid #fff;"></a></div>
+                
+           </div>
+</div>
+           
+             <div class="col-md-12 box" id="twitter">
+            	<h5>TWITTER</h5>
+            	<div style="border-top:1px dashed #000; width:100%; margin-bottom:20px;"></div>
+                <a href="#"><p>Download "Locus Newsletter" layout 1 PSD here: http://is.gd/gcrc2  - about 3 hours ago</p></a>
+               
+                                <a href="#"><p>#Newsletter <b>|</b> Download "Locus Newsletter" layout 1 PSD here: http://is.gd/gcrc2  - about 3 hours ago</p></a>
+                                                
+                      <br>                          
+
+<a href="#"><p>@ Subscribe to our newsletter and receive the latest property updates, interior design inspiration exterior design trends, and expert home improvement tips directly.</p></a>
+
+			</div>
+        </div>
+        
+        
+        
+        
+        
+     
+        <div class="col-md-6">
+       	  <div class="col-md-12 box">
+            	<h5 style="text-transform:uppercase; font-weight:500;">Stay Inspired. Stay Informed.</h5>
+               <div class="dot"></div>
+          	<i class="fa fa-calendar-o">&nbsp;20 oct 2025</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <i class="fa fa-child">&nbsp;By admin</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <i class="fa fa-comment">12 Comments</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <i class="fa fa-paperclip">Permalink</i>
+            <div class="dot"></div>
+			<video controls autoplay loop width="100%"><source src="img/individual-housing-agency.mp4" type="video/mp4"></video>
+            <p>Explore the latest news, expert advice, and creative ideas from the world of real estate and home design. From property investment tips and home-buying guides to modern interior trends and exterior architecture, our blog helps you make informed decisions and discover new possibilities for your dream home.The News & Blog section keeps visitors updated with the latest trends, property market developments, home-buying guides, architectural innovations, and interior and exterior design inspiration.Subscribe to our newsletter and receive the latest property updates, interior design inspiration, exterior design trends, and expert home improvement tips directly in your inbox.Explore the latest news, expert advice, and creative ideas from the world of real estate and home design. From property investment tips and home-buying guides to modern interior trends and exterior architecture, our blog helps you make informed decisions and discover new possibilities for your dream home.The News & Blog section keeps visitors updated with the latest trends, property market developments, home-buying guides, architectural innovations, and interior and exterior design inspiration.</p> 
+            <div class="dot"> <!--style="border-top:1px dashed #000; width:300px; margin-bottom:10px;"--></div>
+            <i class="fa fa-tag">&nbsp;&nbsp;Small Apartments, Modern Homes</i>
+            </div>
+            
+            <div style="background-color:#999; box-shadow:1px 1px 10px 1px #999;color:#fff;border:1px solid #666;font-family:"Palatino Linotype", "Book Antiqua", Palatino, serif; border:1px solid #666; " class="col-md-12 box ">
+            <div class="media-a">
+							<h5>ABOUT THE AUTHOR</h5>
+                <div style="border-top:1px dashed #fff; width:100%; margin-bottom:20px;"></div>
+                <div class="media-list" style="margin-top:10px;">
+                    <div class="media ">
+                         
+                           <a href="#myModal" data-toggle="modal" class="media-left"><img  src="img/fourth-small.jpg" height="100px" width="150px" class="media-object"  alt=""> 
+                          </a>
+                          
+            
+                            <div class="media-body">
+                                <h6>Our vision is to transform the way people discover, design, and experience their dream homes. Under the leadership of our CEO, we bring together real estate opportunities, innovative interior design, and modern architectural solutions to create spaces that inspire better living.</h6>
+                            </div>
+    				</div>
+				</div>
+            </div>
+            </div>
+            
+            		
+
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog modal-md">
+    
+      <!-- Modal content-->
+      <div class="modal-content" id="about">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <img class="img-responsive"  src="img/fourth-small.jpg" width="550" height="460" alt="">
+          <h6>our vision is to transform the way people discover, design, and experience their dream homes. Under the leadership of our CEO, we bring together real estate opportunities, innovative interior design, and modern architectural solutions to create spaces that inspire better living.With a passion for creativity, innovation, and customer satisfaction, our CEO leads the team towards delivering quality services, building lasting relationships, and turning every client's vision into reality</h6>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+            
+            
+            
+            <div class="col-md-12 box" id="templates">
+							<h5 style="text-transform:uppercase;"> House Finding & Interior–Exterior Design</h5>
+                <div class="dot"><!--<div style="border-top:1px dashed #000; width:240px; margin-bottom:20px;">--></div>
+                <div class="media-list" style="margin-top:20px; margin-bottom:00px;">
+                    <div class="media text-center">
+                         <a href="#" class="media-left">
+                           <img src="img/second.jpg" height="200px" width="300px" class="media-object"  alt=""> 
+                          </a>
+            
+                            <div class="media-body">
+                            <h4><b>Find Your Dream Home</b></h4>
+                                <h5>Browse apartments, villas, independent houses, and residential properties based on location, budget, size, and preferences.From finding the right property to designing every corner of your home, we make your journey simple, convenient, and inspiring.</h5>
+                            </div>
+    				</div>
+				</div>
+                               
+                <div class="media-list" style="margin-top:00px; margin-bottom:30px;">
+                    <div class="media text-center">
+                         
+            
+                            <div class="media-body">
+                                                        <h4><b>Interior Design Services</b></h4>
+
+                                <h5>Transform living rooms, bedrooms, kitchens, bathrooms, and office spaces with modern, classic, minimalist, and luxury interior designs.Connect with architects, interior designers, property consultants, and construction professionals.</h5>
+                            </div>
+                            <a href="#" class="media-right">
+                           <img src="img/gorgeous-scheme-for-luxury-contemporary-living-room-design-with-stunning-plan.jpg" height="200px" width="300px" class="media-object"  alt=""> 
+                          </a>
+    				</div>
+                                    <div class="dot" style="margin-top:20px; margin-bottom:20px;" id="contact"></div>
+                                    <div style="border-top:1px dashed #000; width:240px; margin-bottom:30px; margin-top:30px;"></div>
+
+				</div>
+                
+                							<h5 style="text-transform:uppercase;">LEAVE a comment</h5>
+                                          <div class="col-md-12">
+                                            <form class="form-horizontal" id="cont_frm">
+                                            	<div class="form-group">
+                                                	<input type="text" class="form-control" placeholder="Name" value="">
+                                                    <input type="text" class="form-control" placeholder="Email" value="">
+                                                    <input type="text" class="form-control" placeholder="Website" value="">
+                                                    <textarea class="txtarea" rows="5" placeholder="Massage" style="width:100%;" ></textarea>
+                                                    <button type="reset" class="btn btn-default btn-info">Submit</button>
+                                                </div>
+                                            </form>
+										</div>
+                
+            </div>
+        </div>
+        
+        <div class="col-md-3">
+        	 <div class="col-md-12 box">
+            	<h5 style="text-transform:uppercase; font-weight:500;">Search</h5>
+                <div style="border-top:1px dashed #000; width:100%;"></div>
+                <input type="text" name="txt" value="" style="width:100%; height:40px; background:#e8e8e8; margin-top:20px;">
+            </div>
+			
+            
+            <div style="background-color:#999;color=#fff; border:1px solid #666;" class="col-md-12 box">
+            	<h5 style="color:#fff;">RECENT POST</h5>
+                <div style="border-top:1px dashed #fff; width:100%; margin-bottom:20px;"></div>
+                <div class="media-list">
+                    	<div class="media  media-p">
+                         <a href="#" class="media-left">
+                           <img src="img/thumb-02.jpg" class="media-object"  alt=""> 
+                          </a>
+            
+                            <div class="media-body">
+                                <h6>Enhance your home's appearance with architectural elevations.</h6>
+                            </div>
+    				</div>
+                        <div class="media  media-p">
+                                <a href="#" class="media-left">
+                                <img src="img/thumb-27.jpg" class="media-object"  alt=""> 
+                                </a>
+                                        <div class="media-body">
+                                    <h6>Exterior painting, facade design, lighting, and landscaping.</h6>
+                                        </div>
+                        </div>
+                                            	<div class="media  media-p">
+                         <a href="#" class="media-left">
+                           <img src="img/thumb-23.jpg" class="media-object"  alt=""> 
+                          </a>
+            
+                            <div class="media-body">
+                               <h6>Upgrade your existing property through space planning.</h6>
+                            </div>
+    				</div>
+                        <div class="media  media-p">
+                                <a href="#" class="media-left">
+                                <img src="img/thumb-20.jpg" class="media-object"  alt=""> 
+                                </a>
+                                        <div class="media-body">
+                                   <h6>Renovation, remodeling, and customized design solutions.</h6>
+                                        </div>
+                        </div>
+
+   				</div>
+            </div>
+            
+           <div class="col-md-12 box box-s">
+            	<h5>TAGS</h5>
+                <div style="border-top:1px dashed #000; width:100%; margin-bottom:20px;font-family:"Palatino Linotype", "Book Antiqua", Palatino, serif;"></div>
+                
+				<a href="#"><span class="txt">&nbsp;Interior Design &nbsp;</span>&nbsp;&nbsp;<span class="txt">&nbsp; Wall design &nbsp;</span>
+                <span class="txt"><span class="txt">&nbsp; wall Painting &nbsp;&nbsp;</span>&nbsp;&nbsp;<span class="txt">
+                                <span class="txt">&nbsp;&nbsp;Exterior Design &nbsp;&nbsp;</span>&nbsp;&nbsp;<span class="txt">&nbsp;Space-Saving &nbsp;&nbsp;</span>&nbsp;&nbsp;<span class="txt">&nbsp;outdoor lighting &nbsp;&nbsp;</span>&nbsp;&nbsp;
+				<span class="txt">&nbsp;Bastu &nbsp;</span>&nbsp;&nbsp;<span class="txt">&nbsp; Renovation & Remodeling &nbsp;</span><br>
+
+				<span class="txt">&nbsp;landscaping&nbsp;</span>&nbsp;&nbsp;<span class="txt">&nbsp; Interior design &nbsp;</span></a>
+
+        </div>
+
+
+           <div  class="col-md-12 box box-b box-s">
+            	<h5>ACHIVES</h5>
+                <div style="border-top:1px dashed #fff; width:100%; margin-bottom:20px;"></div>
+                
+
+  <a  href="#" title="BTCS CERTIFICATE
+ National award 2025.
+ Location: Bihar from BTCS
+ Delhi india" data-toggle="tooltip" data-placement="buttom"><p style="color:#fff;"><u>September &nbsp;2025</u></p></a>
+                 <a  href="#" title="DHBT AWARD
+ National award 2023.
+ Location: Delhi from DHBT
+ Delhi india" data-toggle="tooltip" data-placement="buttom"><p style="color:#fff;"><u>July &nbsp;2023</u></p></a>
+                  <a  href="#" title="BBNU AWARD
+ National award 2020.
+ Location: Kolkata from BBNU
+ Delhi india" data-toggle="tooltip" data-placement="buttom"><p style="color:#fff;"><u>June &nbsp;2020</u></p></a>
+                <a  href="#" title="DHBT NOMINATION FOR AWARD
+ National award 2020.
+ Location: Delhi from DHBT
+ Delhi india" data-toggle="tooltip" data-placement="buttom"><p style="color:#fff;"><u>April &nbsp;2020</u></p></a>
+                 <a  href="#" title="BBUT AFFILATION
+ National award 2007.
+ Location: Kolkata from BBUT
+ Delhi india" data-toggle="tooltip" data-placement="buttom"><p style="color:#fff;"><u>March &nbsp;2007</u></p></a>
+
+            </div>
+
+
+<div class="col-md-12 box " id="interior">
+            	<h5>ADVERTISEMENT</h5>
+      <div style="border-top:1px dashed #000; width:100%; margin-bottom:10px;">
+      <br>
+
+    <div  class=""adimg">
+   <div style="background:url(img/29.jpg); background-size:cover; background-repeat:no-repeat;" class="well well-lg">
+   <p>Important factors to consider before purchasing your dream home. </p>
+   </div>
+    </div>
+ 
+    <div class="adimg2">
+<div style="background:url(img/05.jpg); background-size:cover; background-repeat:no-repeat;" class="well well-lg">
+   <p>Explore stylish facades, outdoor lighting, landscaping, and architectural details. </p>
+   </div>    </div>
+
+     <div class="adimg3">
+<div style="background:url(img/09.jpg); background-size:cover; background-repeat:no-repeat;" class="well well-lg">
+   <p>Make the most of limited space with creative furniture and smart storage solutions. </p>
+   </div>    </div> 
+     <div class="adimg4">
+<div style="background:url(img/20.jpg); background-size:cover; background-repeat:no-repeat;" class="well well-lg">
+   <p>Discover contemporary interior styles that make your home elegant. </p>
+   </div>    </div> 
+
+ </div>
+
+</div>
+    </div></div></div>
+     <div class="container-fluid footer">
+    
+       <a class="col-md-offset-0" href="#">Home</a>&nbsp;|&nbsp;<a href="#about">About</a>&nbsp;|&nbsp;<a href="#twitter">Terms of use</a>&nbsp;|&nbsp;<a href="#contact">Contact</a><i style="margin-left:270px;"  class="fa fa-1x fa-phone animated faa-flash">1234567890&nbsp;|&nbsp;mail@threezine.co</i><a class="col-sm-offset-2">@copyright 2010. http//www.threezine.com</a>
+       
+     </div>
+           
+ </body>
+</html>
